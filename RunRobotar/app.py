@@ -18,5 +18,13 @@ def answer():
     result = nlp(question_set)
     return jsonify({'answer': result['answer']})
 
+@app.route('/save', methods=['POST'])
+def save():
+    filename = request.form['filename']
+    content = f"Question: {request.form['question']}\nAnswer: {request.form['answer']}"
+    with open(f"{filename}.txt", "w") as f:
+        f.write(content)
+    return "File saved successfully!"
+
 if __name__ == '__main__':
     app.run(debug=True)
