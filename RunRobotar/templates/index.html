@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Question Answering Web App</title>
+  </head>
+  <body>
+    <h1>Question Answering Web App</h1>
+    <form id="form">
+      <label for="text">Text:</label>
+      <br>
+      <textarea id="text" name="text"></textarea>
+      <br>
+      <label for="question">Question:</label>
+      <br>
+      <input id="question" name="question" type="text">
+      <br>
+      <button type="submit">Submit</button>
+    </form>
+    <div id="answer"></div>
+    <script>
+      const form = document.querySelector('#form');
+      const answer = document.querySelector('#answer');
+      form.addEventListener('submit', event => {
+        event.preventDefault();
+        const text = document.querySelector('#text').value;
+        const question = document.querySelector('#question').value;
+        const url = '/answer';
+        const data = new FormData();
+        data.append('text', text);
+        data.append('question', question);
+        fetch(url, {
+          method: 'POST',
+          body: data
+        })
+        .then(response => response.json())
+        .then(data => answer.innerHTML = data.answer);
+      });
+    </script>
+  </body>
+</html>
